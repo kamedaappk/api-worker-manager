@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file, render_template
+from flask import Flask, request, jsonify, send_file, render_template, after_this_request
 import json
 import os
 import uuid
@@ -49,6 +49,17 @@ def worker_task(worker_id, endpoint, frequency, total_calls):
         # Make the API call
         try:
             response = requests.get(endpoint)
+            timestamp = time.strftime("%Y-%m-%d %H:%M:%S")  # Current timestamp
+            response_data = {
+                "timestamp": timestamp,
+                "status_code": response.status_code,
+                "response": response.text,  # Save the response content
+            }
+
+            # Save the response to the worker's data
+            worker["responses"].append(response_data)
+            save_worker(worker)
+
             if response.status_code == 200:
                 print(f"Worker {worker_id}: Call successful")
             else:
@@ -62,6 +73,39 @@ def worker_task(worker_id, endpoint, frequency, total_calls):
 
         # Sleep for the specified frequency
         time.sleep(frequency)
+
+@app.route("/workers/<worker_id>/responses", methods=["GET"])
+def get_worker_responses(worker_id):
+    worker = load_worker(worker_id)
+    if not worker:
+        return jsonify({"error": "Worker not found"}), 404
+
+    return jsonify({"responses": worker.get("responses", [])})
+
+
+@app.route("/workers/<worker_id>/responses/download", methods=["GET"])
+def download_worker_responses(worker_id):
+    worker = load_worker(worker_id)
+    if not worker:
+        return jsonify({"error": "Worker not found"}), 404
+
+    # Create a temporary file to store the responses
+    responses_file = os.path.join(WORKERS_DIR, f"responses_{worker_id}.json")
+    with open(responses_file, "w") as file:
+        json.dump(worker.get("responses", []), file, indent=4)
+
+    # Delete the file after sending it
+    @after_this_request
+    def remove_file(response):
+        try:
+            os.remove(responses_file)
+        except Exception as e:
+            print(f"Error deleting file: {e}")
+        return response
+
+    # Send the file as a downloadable response
+    return send_file(responses_file, as_attachment=True, download_name=f"responses_{worker_id}.json")
+
 
 # Serve the main UI
 @app.route("/")
@@ -106,6 +150,7 @@ def add_worker():
         "remaining_calls": int(data.get("total_calls", 100)),  # Ensure remaining_calls is an integer
         "is_valid": validate_endpoint(endpoint),
         "status": "stopped",  # Default status: stopped
+        "responses": [],  # New field to store API responses
     }
     save_worker(worker)
     return jsonify(worker), 201

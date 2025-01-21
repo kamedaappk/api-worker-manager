@@ -1,0 +1,41 @@
+{
+    "id": "b89d19e8-fa1d-4073-99e6-9c1780b9a77f",
+    "endpoint": "https://ajs-json-manager.onrender.com/remote_endpoint",
+    "frequency": 2,
+    "total_calls": 100,
+    "remaining_calls": 94,
+    "is_valid": true,
+    "status": "stopped",
+    "responses": [
+        {
+            "timestamp": "2025-01-21 17:10:42",
+            "status_code": 200,
+            "response": "{\"another_key\":\"another_value\",\"key\":\"value\"}\n"
+        },
+        {
+            "timestamp": "2025-01-21 17:10:45",
+            "status_code": 200,
+            "response": "{\"another_key\":\"another_value\",\"key\":\"value\"}\n"
+        },
+        {
+            "timestamp": "2025-01-21 17:10:47",
+            "status_code": 200,
+            "response": "{\"another_key\":\"another_value\",\"key\":\"value\"}\n"
+        },
+        {
+            "timestamp": "2025-01-21 17:10:49",
+            "status_code": 200,
+            "response": "{\"another_key\":\"another_value\",\"key\":\"value\"}\n"
+        },
+        {
+            "timestamp": "2025-01-21 17:10:52",
+            "status_code": 200,
+            "response": "{\"another_key\":\"another_value\",\"key\":\"value\"}\n"
+        },
+        {
+            "timestamp": "2025-01-21 17:19:46",
+            "status_code": 200,
+            "response": "{\"another_key\":\"another_value\",\"key\":\"value\"}\n"
+        }
+    ]
+}
