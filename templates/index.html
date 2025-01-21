@@ -7,14 +7,25 @@
     <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=55499&format=png&color=000000">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Ajs API Worker Manager</h1>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>API Worker Manager</h1>
+            <p class="lead">Efficiently manage your API workers with real-time monitoring and control.</p>
+            <img src="https://img.icons8.com/clouds/200/000000/api.png" alt="API Icon" class="hero-icon">
+        </div>
+    </div>
 
+    <div class="container mt-5">
         <!-- Add Worker Form -->
         <div class="card mb-4">
-            <div class="card-header">Add New Worker</div>
+            <div class="card-header">
+                <i class="fas fa-plus-circle me-2"></i>Add New Worker
+            </div>
             <div class="card-body">
                 <form id="add-worker-form">
                     <div class="mb-3">
@@ -29,15 +40,21 @@
                         <label for="total-calls" class="form-label">Total Calls</label>
                         <input type="number" class="form-control" id="total-calls" value="100" required>
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="validateEndpoint()">Validate</button>
-                    <button type="submit" class="btn btn-success" disabled id="add-worker-btn">Add Worker</button>
+                    <button type="button" class="btn btn-primary" onclick="validateEndpoint()">
+                        <i class="fas fa-check-circle me-2"></i>Validate
+                    </button>
+                    <button type="submit" class="btn btn-success" disabled id="add-worker-btn">
+                        <i class="fas fa-plus me-2"></i>Add Worker
+                    </button>
                 </form>
             </div>
         </div>
 
         <!-- Workers Table -->
         <div class="card">
-            <div class="card-header">Workers</div>
+            <div class="card-header">
+                <i class="fas fa-tasks me-2"></i>Workers
+            </div>
             <div class="card-body">
                 <table class="table table-striped" id="workers-table">
                     <thead>
@@ -52,7 +69,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
                         <!-- Workers will be populated here -->
                     </tbody>
                 </table>
@@ -60,10 +76,14 @@
         </div>
 
         <!-- Import/Export Buttons -->
-        <div class="mt-4">
-            <button class="btn btn-secondary" onclick="exportWorkers()">Export Workers</button>
+        <div class="mt-4 text-center">
+            <button class="btn btn-secondary" onclick="exportWorkers()">
+                <i class="fas fa-file-export me-2"></i>Export Workers
+            </button>
             <input type="file" id="import-file" class="d-none" accept=".json">
-            <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Import Workers</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">
+                <i class="fas fa-file-import me-2"></i>Import Workers
+            </button>
         </div>
     </div>
 
@@ -102,24 +122,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-
-    <!-- View Responses Modal -->
-<div class="modal fade" id="viewResponsesModal" tabindex="-1" aria-labelledby="viewResponsesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewResponsesModalLabel">Worker Responses</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <pre id="responses-content"></pre>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="downloadResponses('${workerId}')">Download Responses</button>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 </html>
