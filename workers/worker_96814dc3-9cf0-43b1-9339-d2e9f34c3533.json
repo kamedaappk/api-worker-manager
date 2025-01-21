@@ -1,0 +1,9 @@
+{
+    "id": "96814dc3-9cf0-43b1-9339-d2e9f34c3533",
+    "endpoint": "https://ajs-json-manager.onrender.com/remote_endpoint",
+    "frequency": "2",
+    "total_calls": 100,
+    "remaining_calls": 72,
+    "is_valid": true,
+    "status": "stopped"
+}

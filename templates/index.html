@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Worker Manager</title>
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=55499&format=png&color=000000">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Ajs API Worker Manager</h1>
+
+        <!-- Add Worker Form -->
+        <div class="card mb-4">
+            <div class="card-header">Add New Worker</div>
+            <div class="card-body">
+                <form id="add-worker-form">
+                    <div class="mb-3">
+                        <label for="endpoint" class="form-label">Endpoint</label>
+                        <input type="text" class="form-control" id="endpoint" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="frequency" class="form-label">Frequency (seconds)</label>
+                        <input type="number" class="form-control" id="frequency" value="60" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total-calls" class="form-label">Total Calls</label>
+                        <input type="number" class="form-control" id="total-calls" value="100" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="validateEndpoint()">Validate</button>
+                    <button type="submit" class="btn btn-success" disabled id="add-worker-btn">Add Worker</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Workers Table -->
+        <div class="card">
+            <div class="card-header">Workers</div>
+            <div class="card-body">
+                <table class="table table-striped" id="workers-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Endpoint</th>
+                            <th>Frequency (s)</th>
+                            <th>Total Calls</th>
+                            <th>Remaining Calls</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Workers will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Import/Export Buttons -->
+        <div class="mt-4">
+            <button class="btn btn-secondary" onclick="exportWorkers()">Export Workers</button>
+            <input type="file" id="import-file" class="d-none" accept=".json">
+            <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Import Workers</button>
+        </div>
+    </div>
+
+    <!-- Edit Worker Modal -->
+    <div class="modal fade" id="editWorkerModal" tabindex="-1" aria-labelledby="editWorkerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editWorkerModalLabel">Edit Worker</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-worker-form">
+                        <input type="hidden" id="edit-worker-id">
+                        <div class="mb-3">
+                            <label for="edit-endpoint" class="form-label">Endpoint</label>
+                            <input type="text" class="form-control" id="edit-endpoint" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-frequency" class="form-label">Frequency (seconds)</label>
+                            <input type="number" class="form-control" id="edit-frequency" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-total-calls" class="form-label">Total Calls</label>
+                            <input type="number" class="form-control" id="edit-total-calls" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEditedWorker()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
